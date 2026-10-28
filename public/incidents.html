@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Incidents — Signward</title>
+<meta name="description" content="Signward documents the compromised contracts and scam sites it flags, with what happened and how to revoke affected approvals.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--line:#e4e9e7;--bg:#fff;--bg2:#f5f8f7;--high:#b3361b}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.7;color:var(--ink);background:var(--bg)}
+  a{color:var(--teal)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px}
+  header{border-bottom:1px solid var(--line)}
+  nav{max-width:1120px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+  .brand svg{width:28px;height:28px}
+  .nav-links a{color:var(--muted);font-weight:500;font-size:15px;margin-left:26px;text-decoration:none}.nav-links a:hover{color:var(--ink)}
+  .doc{padding:60px 0 80px}
+  h1{font-size:40px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+  .lead{font-size:18px;color:var(--muted);margin-bottom:30px;max-width:620px}
+  .how{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:34px}
+  .how h2{font-size:16px;font-weight:700;margin-bottom:10px}
+  .how p{font-size:14.5px;color:var(--muted);margin-bottom:10px}.how p:last-child{margin:0}
+  .empty{border:1px dashed var(--line);border-radius:12px;padding:44px 24px;text-align:center;color:var(--muted)}
+  .empty strong{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}footer a{color:var(--ink);margin-right:18px}
+</style>
+</head>
+<body>
+<header><nav>
+  <a class="brand" href="/"><svg viewBox="0 0 48 48"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Signward</a>
+  <div class="nav-links"><a href="/#features">Features</a><a href="/#privacy">Privacy</a><a href="/privacy">Privacy Policy</a></div>
+</nav></header>
+
+<div class="wrap doc">
+  <h1>Security incidents</h1>
+  <p class="lead">When Signward flags a contract as compromised, this is where the details live: what happened, which approvals are affected, and how to revoke them. The alerts you see in the extension link here.</p>
+
+  <div class="how">
+    <h2>How this works</h2>
+    <p>Signward keeps a short, human-reviewed list of contracts that have been exploited or are being used to drain wallets. If an approval you made is to one of these contracts, the extension warns you and points to the write-up here.</p>
+    <p>Each entry is verified against an official source before it is published. Nothing on this page can move your funds; the revoke action always happens in your own wallet, through Revoke.cash.</p>
+  </div>
+
+  <div class="empty">
+    <strong>No incidents published yet.</strong>
+    New incidents will appear here as they are reviewed and confirmed.
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <div><a href="/">Home</a><a href="/#privacy">Privacy</a><a href="/privacy">Privacy Policy</a></div>
+  <div>&copy; 2026 Signward</div>
+</div></footer>
+</body>
+</html>

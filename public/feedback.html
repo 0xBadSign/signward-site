@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signward - Feedback</title>
+<meta name="description" content="Send feedback to the Signward team: report a bug, suggest a feature, flag a false warning or a missed scam, or ask a question.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--teal-d:#0b5f58;--paper:#f7f5f0;
+    --line:#e4e9e7;--high:#b3361b;--medium:#9a6200;--bg:#ffffff;--bg2:#f5f8f7;--maxw:1120px;
+  }
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .em{color:var(--teal)}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .brand svg{width:28px;height:28px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:.15s;font-family:inherit}
+  .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
+  .btn-teal:disabled{background:#9db8b4;cursor:default}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+
+  .page{background:radial-gradient(900px 480px at 92% -18%,rgba(20,163,147,.16),transparent 60%),linear-gradient(180deg,#f3f8f6 0%,#ffffff 60%);border-bottom:1px solid var(--line);padding:64px 0 84px}
+  .page .wrap{max-width:680px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:6px 13px;border-radius:999px;margin-bottom:18px}
+  h1{font-size:40px;line-height:1.1;font-weight:800;letter-spacing:-.03em}
+  .lead{margin-top:14px;font-size:17px;color:var(--muted);margin-bottom:30px}
+
+  form.ticket{background:#fff;border:1px solid var(--line);border-top:4px solid var(--teal);border-radius:14px;padding:26px;box-shadow:0 16px 40px rgba(20,35,43,.08)}
+  .field{margin-bottom:18px}
+  label{display:block;font-size:13.5px;font-weight:700;margin-bottom:6px}
+  .hint{font-weight:500;color:var(--muted)}
+  select,input[type=text],input[type=email],textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1px solid #cdd6d3;border-radius:9px;padding:10px 12px}
+  textarea{min-height:150px;resize:vertical}
+  select:focus-visible,input:focus-visible,textarea:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  .count{font-size:12px;color:var(--muted);text-align:right;margin-top:4px}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0}
+  .actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .note{font-size:13px;color:var(--muted)}
+  .status{margin-top:18px;padding:14px 16px;border-radius:10px;border:1px solid var(--line);border-left:4px solid var(--teal);background:var(--bg2);font-size:14.5px}
+  .status.ok{border-left-color:var(--teal);background:#e8f1ef}
+  .status.err{border-left-color:var(--high);background:#fbeae6}
+  .status code{font:13px ui-monospace,Consolas,monospace;word-break:break-all}
+  [hidden]{display:none!important}
+
+  footer{border-top:1px solid var(--line);background:#fff;padding:46px 0 40px}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot .about{max-width:300px}
+  .foot .about p{font-size:13.5px;color:var(--muted);margin-top:12px}
+  .foot .cols{display:flex;gap:64px;flex-wrap:wrap}
+  .foot h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .foot a{display:block;font-size:14.5px;color:var(--ink);margin-bottom:10px}.foot a:hover{color:var(--teal)}
+  .legal{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:860px){h1{font-size:32px}.page{padding:44px 0 64px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <g id="shield"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><svg viewBox="0 0 48 48"><use href="#shield"/></svg>Signward</a>
+      <div class="nav-cta">
+        <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="wrap">
+    <span class="kicker">Feedback</span>
+    <h1>Tell us what <span class="em">you</span> found.</h1>
+    <p class="lead">Bugs, ideas, a safe site that was flagged, a scam that slipped through. Every message is read by a person.</p>
+
+    <form class="ticket" id="fb" novalidate>
+      <div class="field">
+        <label for="fb-type">Type</label>
+        <select id="fb-type" name="type" required>
+          <option value="bug">Bug report</option>
+          <option value="feature">Feature request</option>
+          <option value="false-positive">False warning (a safe site was flagged)</option>
+          <option value="missed-scam">Missed scam (a dangerous site was not flagged)</option>
+          <option value="question">Question</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fb-url">URL this is about <span class="hint">(optional)</span></label>
+        <input id="fb-url" name="url" type="text" inputmode="url" maxlength="2048" autocomplete="off" spellcheck="false" placeholder="https://">
+      </div>
+      <div class="field">
+        <label for="fb-msg">Your message</label>
+        <textarea id="fb-msg" name="message" maxlength="4000" required></textarea>
+        <div class="count"><span id="fb-count">0</span> / 4000</div>
+      </div>
+      <div class="field">
+        <label for="fb-contact">Your email <span class="hint">(optional, only if you want a reply)</span></label>
+        <input id="fb-contact" name="contact" type="email" maxlength="200" autocomplete="email" spellcheck="false">
+      </div>
+      <div class="hp" aria-hidden="true">
+        <label for="fb-website">Leave this field empty</label>
+        <input id="fb-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="actions">
+        <button class="btn btn-teal" id="fb-send" type="submit">Send feedback</button>
+        <span class="note">Your message is stored so we can follow up. We never sell it.</span>
+      </div>
+      <div class="status" id="fb-status" role="status" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <a class="brand" href="/"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
+        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#how">How it works</a>
+          <a href="/#privacy">Privacy</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="/blog">Blog</a>
+          <a href="/incidents">Incidents</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="https://github.com/">Source code</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="mailto:hello@signward.app">hello@signward.app</a>
+          <a href="/feedback">Send feedback</a>
+          <a href="/donate">Donate</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Signward</span>
+      <span>Signward is a security aid, not a guarantee. Always review what you sign.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var API = "https://api.signward.app/v1/feedback";
+  var form = document.getElementById("fb");
+  var btn = document.getElementById("fb-send");
+  var box = document.getElementById("fb-status");
+  var msg = document.getElementById("fb-msg");
+  var count = document.getElementById("fb-count");
+  var sending = false;
+
+  function show(kind, text, id){
+    box.className = "status " + kind;
+    box.textContent = "";
+    box.appendChild(document.createTextNode(text));
+    if (id) { var c = document.createElement("code"); c.textContent = id; box.appendChild(c); box.appendChild(document.createTextNode(".")); }
+    box.hidden = false;
+  }
+  msg.addEventListener("input", function(){ count.textContent = String(msg.value.length); });
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (sending) return;
+    var f = form.elements;
+    var message = f.message.value.trim();
+    var contact = f.contact.value.trim();
+    if (!message) { show("err", "Please write a message first."); f.message.focus(); return; }
+    if (contact && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) { show("err", "That email address does not look right. Fix it or leave it empty."); f.contact.focus(); return; }
+    // Honeypot: bots fill every field. Pretend it worked and send nothing.
+    if (f.website.value) { show("ok", "Thanks. Your feedback was sent."); form.reset(); count.textContent = "0"; return; }
+
+    sending = true; btn.disabled = true; btn.textContent = "Sending...";
+    box.hidden = true;
+    fetch(API, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ type: f.type.value, url: f.url.value.trim(), message: message, contact: contact, website: f.website.value })
+    }).then(function(r){
+      if (r.status === 429) { show("err", "You have sent several messages today. Please try again tomorrow."); return; }
+      return r.json().then(function(j){
+        if (r.ok && j && j.ok) {
+          show("ok", "Thanks. Your ticket id is ", String(j.id || ""));
+          form.reset(); count.textContent = "0";
+        } else {
+          show("err", "Something went wrong and your message was not sent. Please try again in a moment.");
+        }
+      });
+    }).catch(function(){
+      show("err", "Could not reach the server. Check your connection and try again.");
+    }).then(function(){
+      sending = false; btn.disabled = false; btn.textContent = "Send feedback";
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

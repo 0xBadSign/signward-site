@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found | Signward" description="This page does not exist. Head back to the Signward home page or the security blog." path="/404">
+  <meta slot="head" name="robots" content="noindex">
+  <main class="page">
+    <div class="narrow notfound">
+      <span class="kicker">404</span>
+      <h1 class="page-title">This page <span class="em">is not here</span>.</h1>
+      <p class="lead" style="margin-left:auto;margin-right:auto">The link may be old or mistyped. Nothing was signed and nothing is at risk.</p>
+      <p style="margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-teal" href="/">Go home</a>
+        <a class="btn btn-ghost" href="/blog">Read the blog</a>
+      </p>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,211 @@
+---
+import { CHROME_URL } from '../lib/blog';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Canonical path, e.g. "/blog/address-poisoning". */
+  path: string;
+  ogType?: 'website' | 'article';
+  /** Path or absolute URL of a 1200x630 image. */
+  ogImage?: string;
+  /** [width, height] of ogImage; defaults to the 1200x630 branded card. */
+  ogImageSize?: [number, number];
+  published?: string;
+  modified?: string;
+  article?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  ogImage = '/og/default.png',
+  ogImageSize = [1200, 630],
+  published,
+  modified,
+  article = false,
+} = Astro.props;
+const ogType = Astro.props.ogType ?? (article ? 'article' : 'website');
+
+const site = Astro.site!;
+const canonical = new URL(path, site).href;
+const image = new URL(ogImage, site).href;
+const favicon =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E";
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:type" content={ogType}>
+<meta property="og:site_name" content="Signward">
+<meta property="og:image" content={image}>
+<meta property="og:image:width" content={String(ogImageSize[0])}>
+<meta property="og:image:height" content={String(ogImageSize[1])}>
+{article && published && <meta property="article:published_time" content={published} />}
+{article && (modified ?? published) && <meta property="article:modified_time" content={modified ?? published} />}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@signward_app">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={image}>
+<link rel="icon" href={favicon}>
+<link rel="alternate" type="application/rss+xml" title="Signward Blog" href="/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<slot name="head" />
+<style is:global>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--teal-d:#0b5f58;--paper:#f7f5f0;
+    --line:#e4e9e7;--high:#b3361b;--medium:#9a6200;--bg:#ffffff;--bg2:#f5f8f7;--maxw:1120px;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .em{color:var(--teal)}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  header nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .brand svg{width:28px;height:28px}
+  .nav-links{display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500;color:var(--muted)}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:.15s}
+  .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
+  .btn-ghost{border-color:var(--line);color:var(--ink);background:#fff}.btn-ghost:hover{border-color:#cdd6d3}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:6px 13px;border-radius:999px;margin-bottom:22px}
+
+  footer{border-top:1px solid var(--line);background:#fff;padding:46px 0 40px;margin-top:40px}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot .about{max-width:300px}
+  .foot .about p{font-size:13.5px;color:var(--muted);margin-top:12px}
+  .foot .cols{display:flex;gap:64px;flex-wrap:wrap}
+  .foot h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .foot a{display:block;font-size:14.5px;color:var(--ink);margin-bottom:10px}.foot a:hover{color:var(--teal)}
+  .foot .brand{display:flex;margin-bottom:0}
+  .legal{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  /* Blog */
+  main.page{padding:56px 0 24px}
+  .narrow{max-width:760px;margin:0 auto;padding:0 28px}
+  h1.page-title{font-size:44px;line-height:1.1;font-weight:800;letter-spacing:-.03em}
+  .lead{margin-top:16px;font-size:18px;line-height:1.6;color:var(--muted);max-width:640px}
+  .crumbs{font-size:13.5px;color:var(--muted);margin-bottom:22px}
+  .crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .crumbs li+li::before{content:"/";margin-right:8px;color:#b9c4c0}
+  .crumbs a:hover{color:var(--teal)}
+  .byline{margin-top:18px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+  .cat{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:3px 10px;border-radius:999px}
+  .posts{margin-top:16px;display:grid;gap:18px}
+  .post-card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;transition:.15s}
+  .post-card:hover{border-color:#cdd6d3;box-shadow:0 10px 30px rgba(20,35,43,.08)}
+  .post-card .thumb{width:100%;height:auto;display:block;aspect-ratio:1200/630;object-fit:cover;background:var(--bg2);border-bottom:1px solid var(--line)}
+  .post-card .body{padding:20px 24px 24px}
+  .post-card h3{font-size:21px;line-height:1.3;font-weight:700;letter-spacing:-.015em;margin:10px 0 6px}
+  .post-card p{font-size:15px;color:var(--muted)}
+  .post-card .meta{font-size:13.5px;color:var(--muted);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .hero{display:block;width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover;border:1px solid var(--line);border-radius:14px;margin-top:24px;background:var(--bg2)}
+  .cat-group{margin-top:44px}
+  .cat-group>h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+  .prose{margin-top:34px;font-size:17.5px;line-height:1.75}
+  .prose p{margin-bottom:20px}
+  .prose h2{font-size:26px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:40px 0 14px}
+  .prose h3{font-size:20px;font-weight:700;margin:28px 0 10px}
+  .prose ul,.prose ol{margin:0 0 20px 24px}
+  .prose li{margin-bottom:8px}
+  .prose a{color:var(--teal);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .prose blockquote{border-left:4px solid var(--teal);background:var(--bg2);padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 20px;color:var(--muted)}
+  .prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;background:var(--bg2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;word-break:break-all}
+  .prose pre{background:var(--ink);color:#eaf1ef;border-radius:10px;padding:16px;overflow-x:auto;margin-bottom:20px}
+  .prose pre code{background:none;border:0;color:inherit;padding:0}
+  .prose strong{font-weight:700}
+  .aside{margin-top:44px;border-top:1px solid var(--line);padding-top:26px}
+  .aside h2{font-size:19px;font-weight:800;margin-bottom:12px}
+  .aside ul{margin-left:22px;font-size:15.5px}
+  .aside li{margin-bottom:8px}
+  .aside a{color:var(--teal);font-weight:600;text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+  .notfound{text-align:center;padding:90px 0 60px}
+
+  @media(max-width:860px){
+    .nav-links{display:none}
+    h1.page-title{font-size:34px}
+    .foot .cols{gap:36px}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <g id="shield"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><svg viewBox="0 0 48 48"><use href="#shield"/></svg>Signward</a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/#how">How it works</a>
+        <a href="/#privacy">Privacy</a>
+        <a href="/blog">Blog</a>
+        <a href="/incidents">Incidents</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-teal" href={CHROME_URL} target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<slot />
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <a class="brand" href="/"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
+        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#how">How it works</a>
+          <a href="/#privacy">Privacy</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="/blog">Blog</a>
+          <a href="/incidents">Incidents</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="mailto:hello@signward.app">hello@signward.app</a>
+          <a href="/feedback">Send feedback</a>
+          <a href="/donate">Donate</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Signward</span>
+      <span>Signward is a security aid, not a guarantee. Always review what you sign.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

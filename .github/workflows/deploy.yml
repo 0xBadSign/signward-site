@@ -1,0 +1,70 @@
+# Builds and deploys the Signward site to Cloudflare Pages (Direct Upload project "signward").
+# This is a public repo, so Actions minutes are free and unmetered.
+# Required GitHub repo secrets (names only, values live in GitHub):
+#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, OPENAI_API_KEY
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time; a newer run waits instead of cancelling a deploy mid-flight.
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+permissions:
+  contents: write # needed to push generated hero images back to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true # lets the job push a commit back
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Generates public/hero/<slug>.jpg for posts that lack one.
+      # Never fails: with no key or on API errors it skips and posts use the branded card.
+      - name: Generate AI hero images
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/gen-hero.mjs
+
+      # Persist new heroes so they are never regenerated. "[skip ci]" prevents a re-trigger;
+      # this run continues with the files already on disk.
+      - name: Commit new hero images
+        run: |
+          git add public/hero
+          if git diff --cached --quiet -- public/hero; then
+            echo "No new hero images."
+          else
+            git config user.name "signward-bot"
+            git config user.email "signward-bot@users.noreply.github.com"
+            git commit -m "Add generated hero images [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name signward

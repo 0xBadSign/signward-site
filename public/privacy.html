@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Signward</title>
+<meta name="description" content="How Signward handles data: local-first, no accounts, no tracking, and the few checks that reach a server.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--teal-d:#0b5f58;--line:#e4e9e7;--bg:#fff;--bg2:#f5f8f7}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.7;color:var(--ink);background:var(--bg)}
+  a{color:var(--teal)}
+  .wrap{max-width:780px;margin:0 auto;padding:0 28px}
+  header{border-bottom:1px solid var(--line);background:#fff}
+  nav{max-width:1120px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+  .brand svg{width:28px;height:28px}
+  .nav-links a{color:var(--muted);font-weight:500;font-size:15px;margin-left:26px;text-decoration:none}
+  .nav-links a:hover{color:var(--ink)}
+  .doc{padding:60px 0 80px}
+  .doc h1{font-size:40px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+  .updated{color:var(--muted);font-size:14.5px;margin-bottom:34px}
+  .lead{font-size:18px;color:var(--muted);margin-bottom:30px}
+  .doc h2{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:38px 0 12px;padding-top:8px}
+  .doc h3{font-size:16.5px;font-weight:700;margin:22px 0 6px}
+  .doc p{margin-bottom:14px;color:#223038}
+  .doc ul{margin:0 0 16px 22px;color:#223038}.doc li{margin-bottom:8px}
+  .doc strong{font-weight:700}
+  .tldr{background:var(--bg2);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:20px 22px;margin-bottom:30px}
+  .tldr h2{margin:0 0 10px;font-size:16px}
+  .tldr ul{margin:0 0 0 20px}.tldr li{margin-bottom:6px;font-size:14.5px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:14.5px}
+  th,td{text-align:left;padding:10px 12px;border:1px solid var(--line);vertical-align:top}
+  th{background:var(--bg2);font-weight:700}
+  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  footer a{color:var(--ink);margin-right:18px}
+</style>
+</head>
+<body>
+<header><nav>
+  <a class="brand" href="/"><svg viewBox="0 0 48 48"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Signward</a>
+  <div class="nav-links"><a href="/#features">Features</a><a href="/#privacy">Privacy</a><a href="/incidents">Incidents</a></div>
+</nav></header>
+
+<div class="wrap doc">
+  <h1>Privacy Policy</h1>
+  <div class="updated">Last updated: 24 October 2026</div>
+
+  <p class="lead">Signward is a security tool, so it is built to see as little as possible. Almost everything happens on your device. This page explains exactly what stays local, the few checks that reach a server, and what is never collected.</p>
+
+  <div class="tldr">
+    <h2>In short</h2>
+    <ul>
+      <li>No account, no sign-up, no tracking, no ads, and nothing is sold.</li>
+      <li>Your keys and recovery phrase are never read, stored or transmitted.</li>
+      <li>Page scoring runs on your device. Full page URLs are never sent or logged.</li>
+      <li>A few optional checks send the minimum needed (an address, a domain, or a page snapshot you ask to scan).</li>
+    </ul>
+  </div>
+
+  <h2>1. On your device</h2>
+  <p>These run entirely in your browser and send nothing:</p>
+  <ul>
+    <li><strong>Page checks.</strong> Signward scores each page locally against bundled lists and on-page signals to decide whether to warn or block.</li>
+    <li><strong>The wallet gate.</strong> It reads and explains wallet requests (approvals, permits, orders, signatures) before you decide. It never holds a key and cannot sign for you.</li>
+    <li><strong>Your approval ledger.</strong> Approvals you grant while Signward is installed are stored only in your browser's local storage, to power the revoke links and compromised-approval alerts. They are never uploaded.</li>
+    <li><strong>Settings and caches.</strong> Your preferences, the downloaded lists, and per-tab scores are kept locally.</li>
+  </ul>
+
+  <h2>2. What is sent to a server, and only then</h2>
+  <p>A small number of checks need Signward's backend (<strong>api.signward.app</strong>). Each sends the least it can, and only in the situation described:</p>
+  <table>
+    <tr><th>Check</th><th>What is sent</th><th>When</th></tr>
+    <tr><td>Address screening</td><td>A wallet/contract <strong>address</strong> and chain id</td><td>Online screening is on (default); can be turned off in settings</td></tr>
+    <tr><td>Domain age</td><td>A registrable <strong>domain</strong> (e.g. example.com) — never the full URL</td><td>Only for a page that already looks suspicious</td></tr>
+    <tr><td>Brand check</td><td>A short <strong>brand name</strong> taken from the page (e.g. &ldquo;uniswap&rdquo;) — never the URL</td><td>Only for a page that already looks suspicious</td></tr>
+    <tr><td>AI deep scan</td><td>A <strong>page snapshot</strong>: the URL, title, a text sample, script and link hosts, and wallet-button labels</td><td>Only when you click &ldquo;Deep analysis&rdquo;</td></tr>
+    <tr><td>Report a site</td><td>The <strong>page URL</strong> you are reporting</td><td>Only when you click &ldquo;Report this site&rdquo;</td></tr>
+  </table>
+  <p>List and feed updates (phishing lists, the community list, the compromised-contracts feed) are ordinary downloads and send no information about you. Transaction simulation is performed through your own wallet's network connection, not through Signward.</p>
+
+  <h2>3. Third-party services</h2>
+  <p>Some checks are answered with the help of established providers. Signward's server talks to them so that API keys stay off your device; they receive only the item above, never your identity:</p>
+  <ul>
+    <li><strong>GoPlus</strong> — malicious-address data for address screening.</li>
+    <li><strong>Anthropic (Claude)</strong> — the AI model behind the on-demand deep scan.</li>
+    <li><strong>Public domain records</strong> (RDAP, Certificate Transparency, and a WHOIS provider) — for the domain-age check.</li>
+    <li><strong>An X (Twitter) data provider</strong> — to resolve a project's official account for the brand check.</li>
+  </ul>
+
+  <h2>4. What Signward never collects</h2>
+  <ul>
+    <li>Private keys, recovery phrases, or anything you type into a wallet.</li>
+    <li>Full page URLs or your browsing history.</li>
+    <li>Form inputs, passwords, or cookies.</li>
+    <li>Analytics, advertising identifiers, or behavioural tracking.</li>
+  </ul>
+
+  <h2>5. Retention and rate-limiting</h2>
+  <p>Address, domain and brand answers are cached briefly on the server to reduce load, keyed by the item itself, not by you. Deep-scan snapshots are not stored. When you report a site, the reported URL enters a moderation queue; to prevent abuse, the server counts reports per client using a <strong>salted, truncated hash</strong> of the IP address — the raw IP address is never stored.</p>
+
+  <h2>6. No sale of data</h2>
+  <p>Signward does not sell, rent or share personal data. There is no advertising and no third-party analytics.</p>
+
+  <h2>7. Open source</h2>
+  <p>The extension, the backend and the lists are published so anyone can verify these claims. Secrets (API keys) are kept server-side and are not in the public code.</p>
+
+  <h2>8. Changes</h2>
+  <p>If this policy changes, the date above is updated and the current version is always available here.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions about privacy: <a href="mailto:hello@signward.app">hello@signward.app</a>.</p>
+</div>
+
+<footer><div class="wrap">
+  <div><a href="/">Home</a><a href="/#privacy">Privacy</a><a href="/incidents">Incidents</a></div>
+  <div>&copy; 2026 Signward</div>
+</div></footer>
+</body>
+</html>

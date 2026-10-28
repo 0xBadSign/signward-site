@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signward - Donate</title>
+<meta name="description" content="Signward is free, open source and local-first. Donations cover what costs real money to run: the AI deep scan, the lookups behind deeper checks, the API server and feedback mail.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--teal-d:#0b5f58;--paper:#f7f5f0;
+    --line:#e4e9e7;--high:#b3361b;--medium:#9a6200;--bg:#ffffff;--bg2:#f5f8f7;--maxw:1120px;
+  }
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .em{color:var(--teal)}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .brand svg{width:28px;height:28px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:.15s;font-family:inherit}
+  .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+
+  .page{background:radial-gradient(900px 480px at 92% -18%,rgba(20,163,147,.16),transparent 60%),linear-gradient(180deg,#f3f8f6 0%,#ffffff 60%);border-bottom:1px solid var(--line);padding:64px 0 84px}
+  .page .wrap{max-width:680px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:6px 13px;border-radius:999px;margin-bottom:18px}
+  h1{font-size:40px;line-height:1.1;font-weight:800;letter-spacing:-.03em}
+  .lead{margin-top:14px;font-size:17px;color:var(--muted)}
+
+  .why{margin-top:30px}
+  .why h2{font-size:15px;font-weight:700;margin-bottom:12px}
+  .costs{list-style:none;display:grid;gap:10px}
+  .costs li{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:13px 15px;font-size:14.5px}
+  .costs .ico{flex:none;width:22px;height:22px;color:var(--teal)}
+  .costs b{font-weight:700}
+  .costs .sub{color:var(--muted)}
+  .promise{margin-top:16px;font-size:14.5px;color:var(--muted)}
+  .promise b{color:var(--ink);font-weight:700}
+
+  .give{margin-top:30px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--teal);border-radius:14px;padding:24px;box-shadow:0 16px 40px rgba(20,35,43,.08)}
+  .give h2{font-size:16px;font-weight:800}
+  .give .chain{margin-top:4px;font-size:13.5px;color:var(--muted)}
+  .addr{margin-top:14px;display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .addr code{flex:1;min-width:220px;font:14px ui-monospace,Consolas,monospace;color:var(--ink);background:var(--bg2);border:1px solid #cdd6d3;border-radius:9px;padding:12px 13px;word-break:break-all;display:flex;align-items:center}
+  .copy{flex:none;display:inline-flex;align-items:center;gap:7px;font:inherit;font-weight:700;font-size:14px;padding:0 16px;border-radius:9px;border:1px solid var(--teal);background:var(--teal);color:#fff;cursor:pointer}
+  .copy:hover{background:var(--teal-d)}
+  .copy:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  .copy.done{background:#0b5f58}
+  .verify{margin-top:14px;font-size:13px;color:var(--muted);border-left:3px solid var(--medium);background:#fbf4e6;border-radius:0 8px 8px 0;padding:10px 13px}
+
+  footer{border-top:1px solid var(--line);background:#fff;padding:46px 0 40px}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot .about{max-width:300px}
+  .foot .about p{font-size:13.5px;color:var(--muted);margin-top:12px}
+  .foot .cols{display:flex;gap:64px;flex-wrap:wrap}
+  .foot h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .foot a{display:block;font-size:14.5px;color:var(--ink);margin-bottom:10px}.foot a:hover{color:var(--teal)}
+  .legal{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:860px){h1{font-size:32px}.page{padding:44px 0 64px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <g id="shield"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><svg viewBox="0 0 48 48"><use href="#shield"/></svg>Signward</a>
+      <div class="nav-cta">
+        <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="wrap">
+    <span class="kicker">Support Signward</span>
+    <h1>Keep Signward <span class="em">free</span> for everyone.</h1>
+    <p class="lead">Signward is free, open source and local-first. No ads, no accounts, nothing sold. A few parts of it still cost real money to run, and that is what a donation covers.</p>
+
+    <div class="why">
+      <h2>Where your donation goes</h2>
+      <ul class="costs">
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 7h10c0-2 2-4 2-7a7 7 0 0 0-7-7z"/><path d="M9 21h6"/></svg>
+          <span><b>The AI deep scan.</b> <span class="sub">The on-demand check that reads a page in plain language and explains why it looks safe or dangerous runs on a paid AI model.</span></span>
+        </li>
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
+          <span><b>The deeper checks.</b> <span class="sub">Brand and official-account lookups and domain-age checks that back up the local score use rate-limited paid data sources.</span></span>
+        </li>
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg>
+          <span><b>The server and mail.</b> <span class="sub">The API, the shared community blocklist and the feedback inbox all run on hosted infrastructure.</span></span>
+        </li>
+        <li>
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          <span><b>Building more.</b> <span class="sub">New chains, new drainer patterns and faster updates when a fresh scam shows up.</span></span>
+        </li>
+      </ul>
+      <p class="promise"><b>It is entirely voluntary.</b> A donation never unlocks anything. Everyone gets the full tool, whether they give or not.</p>
+    </div>
+
+    <section class="give">
+      <h2>Donate with crypto</h2>
+      <p class="chain">Ethereum and EVM chains (Base, Arbitrum, Optimism, Polygon and others).</p>
+      <div class="addr">
+        <code id="addr">0xBdA5c29cC8A0d3D134E83adFb6Fd39844c868Bb1</code>
+        <button class="copy" id="copy" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="copy-label">Copy</span>
+        </button>
+      </div>
+      <p class="verify">Please double-check the address matches the one shown here before you send. Signward will never DM you or ask for funds anywhere else.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <a class="brand" href="/"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
+        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#how">How it works</a>
+          <a href="/#privacy">Privacy</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="/blog">Blog</a>
+          <a href="/incidents">Incidents</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="https://github.com/">Source code</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="mailto:hello@signward.app">hello@signward.app</a>
+          <a href="/feedback">Send feedback</a>
+          <a href="/donate">Donate</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Signward</span>
+      <span>Signward is a security aid, not a guarantee. Always review what you sign.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var addr = document.getElementById("addr");
+  var btn = document.getElementById("copy");
+  var label = document.getElementById("copy-label");
+  var timer = null;
+  btn.addEventListener("click", function(){
+    var text = addr.textContent.trim();
+    function ok(){
+      btn.classList.add("done");
+      label.textContent = "Copied";
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(function(){ btn.classList.remove("done"); label.textContent = "Copy"; }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok).catch(select);
+    } else { select(); }
+    function select(){
+      try {
+        var r = document.createRange(); r.selectNodeContents(addr);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        document.execCommand("copy"); s.removeAllRanges(); ok();
+      } catch (e) { label.textContent = "Select and copy"; }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

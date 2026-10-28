@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts, slugOf, heroFor, humanDate, ymd, CATEGORY_LABEL, CHROME_URL, SITE } from '../../lib/blog';
+
+const posts = await getPosts();
+const order = ['news', 'incident', 'explainer', 'guide'] as const;
+const groups = order
+  .map((c) => ({ cat: c, items: posts.filter((p) => p.data.category === c) }))
+  .filter((g) => g.items.length > 0);
+
+const title = 'Security blog | Signward';
+const description =
+  'Plain-language explainers, incident write-ups and practical guides on wallet drainers, phishing and crypto scams, from the team behind Signward.';
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Signward',
+  url: SITE,
+  logo: `${SITE}/og/default.png`,
+  sameAs: ['https://x.com/signward_app', CHROME_URL],
+};
+---
+<BaseLayout title={title} description={description} path="/blog" ogImage="/og/blog.png">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(orgLd)} />
+  <main class="page">
+    <div class="narrow">
+      <span class="kicker">Signward blog</span>
+      <h1 class="page-title">Wallet security, <span class="em">explained</span>.</h1>
+      <p class="lead">
+        Wallet drainers, phishing pages and address tricks change fast, and the warnings that matter are
+        rarely written for normal people. This blog explains how these scams work, what to look for, and
+        what to do about them, in plain language and with sources you can check.
+      </p>
+
+      {groups.map((g) => (
+        <section class="cat-group">
+          <h2>{CATEGORY_LABEL[g.cat]}</h2>
+          <div class="posts">
+            {g.items.map((p) => {
+              const h = heroFor(slugOf(p));
+              return (
+              <a class="post-card" href={`/blog/${slugOf(p)}`}>
+                <img class="thumb" src={h.src} width={h.isHero ? 1536 : 1200} height={h.isHero ? 1024 : 630} alt="" loading="lazy" />
+                <div class="body">
+                  <div class="meta">
+                    <span class="cat">{CATEGORY_LABEL[p.data.category]}</span>
+                    <time datetime={ymd(p.data.pubDate)}>{humanDate(p.data.pubDate)}</time>
+                  </div>
+                  <h3>{p.data.title}</h3>
+                  <p>{p.data.description}</p>
+                </div>
+              </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

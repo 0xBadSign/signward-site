@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signward — see the scam before you sign</title>
+<meta name="description" content="Signward is a wallet-drainer and phishing guard for Chrome. It reads risky wallet requests in plain language and stops the trap before your wallet opens.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--teal-d:#0b5f58;--paper:#f7f5f0;
+    --line:#e4e9e7;--high:#b3361b;--medium:#9a6200;--bg:#ffffff;--bg2:#f5f8f7;--maxw:1120px;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .em{color:var(--teal)}
+  h2.sec{font-size:32px;font-weight:800;letter-spacing:-.025em;margin-bottom:10px}
+  .sec-lead{font-size:17px;color:var(--muted);max-width:580px;margin-bottom:42px}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .brand svg{width:28px;height:28px}
+  .nav-links{display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500;color:var(--muted)}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:.15s}
+  .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
+  .btn-ghost{border-color:var(--line);color:var(--ink);background:#fff}.btn-ghost:hover{border-color:#cdd6d3}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .soon{font-size:12px;font-weight:700;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:3px 9px;border-radius:999px}
+
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+    background:radial-gradient(900px 560px at 92% -18%,rgba(20,163,147,.22),transparent 60%),radial-gradient(760px 520px at -8% 120%,rgba(15,118,110,.12),transparent 55%),linear-gradient(180deg,#f3f8f6 0%,#ffffff 72%)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:84px 0 90px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:6px 13px;border-radius:999px;margin-bottom:22px}
+  h1{font-size:54px;line-height:1.05;font-weight:800;letter-spacing:-.035em;max-width:560px}
+  .hero p.lead{margin-top:20px;font-size:19px;line-height:1.6;color:var(--muted);max-width:500px}
+  .hero-cta{margin-top:30px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .btn-lg{padding:14px 24px;font-size:15.5px;border-radius:11px}
+  .trust{margin-top:22px;font-size:13.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .trust .d{width:3px;height:3px;border-radius:50%;background:#b9c4c0}
+
+  .stage{position:relative;height:430px}
+  .panel{position:absolute;top:0;left:18px;width:320px;background:var(--paper);border:1px solid #d9d4c8;border-radius:16px;box-shadow:0 30px 70px rgba(20,35,43,.2);overflow:hidden}
+  .ph{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid #d9d4c8}
+  .ph b{font-size:15px}.ph .sw{font-size:11.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+  .tk{width:30px;height:18px;border-radius:9px;background:var(--teal);position:relative}.tk::after{content:"";position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#fff}
+  .ph2{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:12px 15px 6px}
+  .sc{display:flex;gap:12px;align-items:center;margin:0 15px;padding:11px;background:#fff;border:1px solid #d9d4c8;border-left:5px solid var(--high);border-radius:10px}
+  .sc .n{font-size:28px;font-weight:800;color:var(--high);min-width:42px;text-align:center}
+  .sc .w{font-weight:700;font-size:13px}.sc ul{margin:4px 0 0 14px;color:var(--muted);font-size:11.5px;font-weight:400}
+  .pbtn{margin:11px 15px 15px;text-align:center;padding:9px;border:1px solid var(--teal);border-radius:8px;color:var(--teal);font-weight:700;font-size:12.5px}
+  .fc{position:absolute;width:252px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:0 16px 40px rgba(20,35,43,.14);display:flex;gap:11px;align-items:flex-start}
+  .fc .i{width:30px;height:30px;border-radius:8px;background:#e8f1ef;display:flex;align-items:center;justify-content:center;flex:none}
+  .fc .i svg{width:17px;height:17px}.fc .t{font-weight:700;font-size:12.5px}.fc .d{font-size:11px;color:var(--muted);margin-top:1px}
+  .fc.a{top:30px;right:0;border-left:4px solid var(--teal)}
+  .fc.b{bottom:18px;right:24px;border-left:4px solid var(--medium)}
+
+  .threats{background:var(--ink);color:#dfe8e6}
+  .threats .wrap{padding:28px 28px;display:flex;align-items:center;gap:14px 26px;flex-wrap:wrap;justify-content:center}
+  .threats .lab{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#8fa3a0;font-weight:700}
+  .threats .chip{font-size:14.5px;font-weight:600;color:#eaf1ef}
+
+  section.block{padding:84px 0}
+  .alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+  .card .ic{width:42px;height:42px;border-radius:11px;background:#e8f1ef;display:flex;align-items:center;justify-content:center;margin-bottom:15px}
+  .card .ic svg{width:22px;height:22px}
+  .card h3{font-size:17.5px;font-weight:700;margin-bottom:7px;letter-spacing:-.01em}
+  .card p{font-size:14.5px;color:var(--muted);line-height:1.6}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+  .step{padding-top:18px}
+  .step::before{counter-increment:s;content:"0" counter(s);font-size:13px;font-weight:800;color:var(--teal);letter-spacing:.05em}
+  .step h3{font-size:17px;font-weight:700;margin:8px 0 6px}
+  .step p{font-size:14px;color:var(--muted)}
+  .step .bar{height:3px;background:linear-gradient(90deg,var(--teal),#9fd3cb);border-radius:2px;margin-top:14px}
+
+  .priv{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .priv-list{display:flex;flex-direction:column;gap:16px}
+  .pl{display:flex;gap:13px;align-items:flex-start}
+  .pl .ck{width:22px;height:22px;border-radius:6px;background:#e3f1ee;color:var(--teal);display:flex;align-items:center;justify-content:center;flex:none;font-weight:800;font-size:12px}
+  .pl b{font-weight:700}.pl span{font-size:14.5px;color:var(--muted)}
+  .priv-note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:12px;padding:22px}
+  .priv-note h3{font-size:16px;margin-bottom:10px}
+  .priv-note p{font-size:14px;color:var(--muted);margin-bottom:10px}.priv-note p:last-child{margin-bottom:0}
+
+  .ctaband{background:linear-gradient(135deg,var(--teal) 0%,#0b5f58 100%);color:#fff;border-radius:18px;padding:52px 40px;text-align:center}
+  .ctaband h2{font-size:32px;font-weight:800;letter-spacing:-.025em}
+  .ctaband p{font-size:17px;color:#cfe8e3;margin:10px auto 26px;max-width:520px}
+  .btn-white{background:#fff;color:var(--teal);font-size:15.5px;padding:14px 26px;border-radius:11px}
+
+  footer{border-top:1px solid var(--line);background:#fff;padding:46px 0 40px}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot .about{max-width:300px}
+  .foot .about p{font-size:13.5px;color:var(--muted);margin-top:12px}
+  .foot .cols{display:flex;gap:64px;flex-wrap:wrap}
+  .foot h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .foot a{display:block;font-size:14.5px;color:var(--ink);margin-bottom:10px}.foot a:hover{color:var(--teal)}
+  .legal{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr}.stage{display:none}
+    h1{font-size:40px}.grid3{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.priv{grid-template-columns:1fr}.nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <g id="shield"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top"><svg viewBox="0 0 48 48"><use href="#shield"/></svg>Signward</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#privacy">Privacy</a>
+        <a href="/blog">Blog</a>
+        <a href="/incidents">Incidents</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="kicker">Wallet-drainer &amp; phishing guard for Chrome</span>
+        <h1>See the scam <span class="em">before</span> you sign.</h1>
+        <p class="lead">Signward sits between the page and your wallet. It reads every risky request in plain language and blocks known scams before the page can run.</p>
+        <div class="hero-cta">
+          <a class="btn btn-teal btn-lg" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome, free</a>
+          <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
+        </div>
+        <div class="trust">Free<span class="d"></span>Open source<span class="d"></span>No account<span class="d"></span>Nothing leaves your device by default</div>
+      </div>
+      <div class="stage">
+        <div class="panel">
+          <div class="ph"><b>Signward</b><span class="sw">On <span class="tk"></span></span></div>
+          <div class="ph2">This site</div>
+          <div class="sc"><div class="n">90</div><div><div class="w">This page looks dangerous</div><ul><li>Impersonates a known project on a lookalike domain</li><li>Registered 4 days ago</li></ul></div></div>
+          <div class="pbtn">Deep analysis of this tab</div>
+        </div>
+        <div class="fc a"><span class="i"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 20 6v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z" stroke="#0f766e" stroke-width="2" stroke-linejoin="round"/></svg></span><div><div class="t">Wallet gate</div><div class="d">Approvals and orders, in plain words.</div></div></div>
+        <div class="fc b"><span class="i"><svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9z" stroke="#9a6200" stroke-width="2" stroke-linejoin="round"/><path d="M10 21a2 2 0 0 0 4 0" stroke="#9a6200" stroke-width="2" stroke-linecap="round"/></svg></span><div><div class="t">Approval alerts</div><div class="d">Warns if a contract is later hacked.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="threats">
+  <div class="wrap">
+    <span class="lab">Defends against</span>
+    <span class="chip">Wallet drainers</span>
+    <span class="chip">Phishing &amp; lookalike sites</span>
+    <span class="chip">Seed-phrase theft</span>
+    <span class="chip">ClickFix clipboard attacks</span>
+    <span class="chip">Compromised approvals</span>
+  </div>
+</div>
+
+<section class="block" id="features">
+  <div class="wrap">
+    <h2 class="sec">Protection at every step of a wallet attack</h2>
+    <p class="sec-lead">Most drainers follow the same path: a convincing page, a wallet prompt, a signature. Signward breaks that chain in more than one place.</p>
+    <div class="grid3">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 20 6v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z" stroke="#0f766e" stroke-width="2" stroke-linejoin="round"/><path d="M9 12.5 11.3 15 15.5 10" stroke="#0f766e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Plain-language wallet gate</h3>
+        <p>Every approval, permit, Permit2 and marketplace order is decoded before you sign. Unlimited spends and setApprovalForAll are flagged, and the counterparty is screened against scam lists.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3z" stroke="#b3361b" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4" stroke="#b3361b" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="#b3361b"/></svg></div>
+        <h3>Scam sites blocked on load</h3>
+        <p>Known phishing hosts and brand-impersonation lookalikes — including short-name clones and IDN homographs — are stopped with a full-page warning before a single script runs.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#0f766e" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="#0f766e" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>On-chain address screening</h3>
+        <p>Counterparty addresses are checked against sanctions and malicious-address data, so you are warned when a spender or site is already known to be dangerous.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9z" stroke="#9a6200" stroke-width="2" stroke-linejoin="round"/><path d="M10 21a2 2 0 0 0 4 0" stroke="#9a6200" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>Compromised-approval alerts</h3>
+        <p>Signward remembers what you approved. If a contract you trusted is later exploited, it warns you on the spot and takes you straight to revoke it.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#0f766e" stroke-width="2"/><path d="M8 10h8M8 14h5" stroke="#0f766e" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>Seed-phrase &amp; clipboard guard</h3>
+        <p>Warns when a page tries to collect your recovery phrase, and catches ClickFix / fake-CAPTCHA pages that copy a hidden system command to your clipboard.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#0f766e" stroke-width="2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5 7.6 7.6M16.4 16.4l2.1 2.1M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1" stroke="#0f766e" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>AI deep scan, on demand</h3>
+        <p>Not sure about a page? One click sends a snapshot for an AI second opinion that explains, in plain language, exactly why a page looks safe or dangerous.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="how">
+  <div class="wrap">
+    <h2 class="sec">Four layers, working together</h2>
+    <p class="sec-lead">Each layer is useful on its own. Together they cover the page, the wallet request and the counterparty.</p>
+    <div class="steps">
+      <div class="step"><h3>On-load page check</h3><p>Scores the site on your device against blocklists, brand data and on-page signals, then warns or blocks.</p><div class="bar"></div></div>
+      <div class="step"><h3>Wallet gate</h3><p>Holds risky requests and shows them in plain language, with a live simulation, before they reach your wallet.</p><div class="bar"></div></div>
+      <div class="step"><h3>Address screening</h3><p>Checks the counterparty against sanctions and malicious-address lists, online or from bundled offline data.</p><div class="bar"></div></div>
+      <div class="step"><h3>Deep scan</h3><p>An on-demand AI verdict for the pages the fast checks are unsure about, with reasons you can read.</p><div class="bar"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="privacy">
+  <div class="wrap">
+    <div class="priv">
+      <div>
+        <h2 class="sec">Built to see less, not more</h2>
+        <p class="sec-lead">A security tool should not become the thing you have to trust with everything. Signward checks pages on your device and keeps your keys and browsing to yourself.</p>
+        <div class="priv-list">
+          <div class="pl"><span class="ck">&#10003;</span><span><b>Your keys are never touched.</b> Signward reads and explains requests; it never holds a seed phrase or private key, and it cannot sign for you.</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span><b>Full URLs are never sent or logged.</b> Page scoring runs locally, and the approvals you make are stored only on your device.</span></div>
+          <div class="pl"><span class="ck">&#10003;</span><span><b>No accounts, no tracking, no ads.</b> There is nothing to sign up for, and nothing is sold.</span></div>
+        </div>
+      </div>
+      <div class="priv-note">
+        <h3>What leaves your device, and only then</h3>
+        <p>A few checks need a server. Each sends the minimum: an <b>address</b> for online screening (optional, on by default), a <b>domain</b> for an age lookup on a suspicious page, and a <b>page snapshot</b> for the AI deep scan — which runs only when you click it.</p>
+        <p>List and feed updates are ordinary downloads. The full policy is in the <a href="/privacy" class="em" style="font-weight:700">Privacy Policy</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="ctaband" id="get">
+      <h2>See the scam before you sign.</h2>
+      <p>Signward is live on the Chrome Web Store. Add it in one click, free, no account.</p>
+      <a class="btn btn-white" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <a class="brand" href="#top"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
+        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#how">How it works</a>
+          <a href="#privacy">Privacy</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="/blog">Blog</a>
+          <a href="/incidents">Incidents</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="https://github.com/">Source code</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="mailto:hello@signward.app">hello@signward.app</a>
+          <a href="/feedback">Send feedback</a>
+          <a href="/donate">Donate</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Signward</span>
+      <span>Signward is a security aid, not a guarantee. Always review what you sign.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "_note": "Public compromised-contracts feed served at https://signward.app/compromised-contracts.json . Every entry MUST be verified against an official incident source before it is added; a false entry would tell users to revoke legitimate approvals. Entry shape: {address, chainId, name, reason, severity, ref, revokeRequired}.",
+  "updatedAt": 0,
+  "contracts": []
+}

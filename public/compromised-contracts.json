@@ -1,5 +1,33 @@
 {
   "_note": "Public compromised-contracts feed served at https://signward.app/compromised-contracts.json . Every entry MUST be verified against an official incident source before it is added; a false entry would tell users to revoke legitimate approvals. Entry shape: {address, chainId, name, reason, severity, ref, revokeRequired}.",
-  "updatedAt": 0,
-  "contracts": []
+  "updatedAt": 1793309840413,
+  "contracts": [
+    {
+      "chainId": 1,
+      "address": "0x6b7879a5d747e30a3adb37a9e41c046928fce933",
+      "name": "CrimeEnjoyor: EIP-7702 Delegator 7",
+      "reason": "Known EIP-7702 sweeper (CrimeEnjoyor family). An account delegated to it is drained automatically; the vector is a phished authorization signature. Etherscan Phish/Hack tag; reported by Wintermute.",
+      "severity": "high",
+      "revokeRequired": true,
+      "ref": "https://etherscan.io/address/0x6b7879a5d747e30a3adb37a9e41c046928fce933"
+    },
+    {
+      "chainId": 1,
+      "address": "0x89046d34e70a65acab2152c26a0c8e493b5ba629",
+      "name": "Advanced CrimeEnjoyor: EIP-7702 Delegator 2",
+      "reason": "Known EIP-7702 sweeper. Its verified source sweeps all incoming ETH and tokens from the delegated account. Etherscan Phish/Hack tag (reported by Wintermute); listed by GoPlus as a Super Delegator.",
+      "severity": "high",
+      "revokeRequired": true,
+      "ref": "https://etherscan.io/address/0x89046d34e70a65acab2152c26a0c8e493b5ba629"
+    },
+    {
+      "chainId": 1,
+      "address": "0x710fad1041f0ee79916bb1a6adef662303bb8b6e",
+      "name": "CrimeEnjoyor: EIP-7702 Delegator 4",
+      "reason": "Known EIP-7702 sweeper (CrimeEnjoyor family). initialize(_thief) sets a destination that drains the delegated account. Etherscan Phish/Hack tag; reported by Wintermute.",
+      "severity": "high",
+      "revokeRequired": true,
+      "ref": "https://etherscan.io/address/0x710fad1041f0ee79916bb1a6adef662303bb8b6e"
+    }
+  ]
 }

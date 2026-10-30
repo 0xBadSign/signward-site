@@ -8,6 +8,8 @@ export const SITE = 'https://signward.app';
 export const CHROME_URL =
   'https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil';
 
+export const FIREFOX_URL = 'https://addons.mozilla.org/firefox/addon/signward-drainer-guard/';
+
 export const CATEGORY_LABEL: Record<Post['data']['category'], string> = {
   news: 'News',
   explainer: 'Explainer',

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getPosts, slugOf, heroFor, humanDate, ymd, CATEGORY_LABEL, CHROME_URL, SITE } from '../../lib/blog';
+import { getPosts, slugOf, heroFor, humanDate, ymd, CATEGORY_LABEL, CHROME_URL, FIREFOX_URL, SITE } from '../../lib/blog';
 
 const posts = await getPosts();
 const order = ['news', 'incident', 'explainer', 'guide'] as const;
@@ -18,7 +18,7 @@ const orgLd = {
   name: 'Signward',
   url: SITE,
   logo: `${SITE}/og/default.png`,
-  sameAs: ['https://x.com/signward_app', CHROME_URL],
+  sameAs: ['https://x.com/signward_app', CHROME_URL, FIREFOX_URL],
 };
 ---
 <BaseLayout title={title} description={description} path="/blog" ogImage="/og/blog.png">

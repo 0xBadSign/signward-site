@@ -1,5 +1,5 @@
 ---
-import { CHROME_URL } from '../lib/blog';
+import { CHROME_URL, FIREFOX_URL } from '../lib/blog';
 
 interface Props {
   title: string;
@@ -85,6 +85,7 @@ const favicon =
   .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
   .btn-ghost{border-color:var(--line);color:var(--ink);background:#fff}.btn-ghost:hover{border-color:#cdd6d3}
   .nav-cta{display:flex;align-items:center;gap:14px}
+  @media(max-width:480px){.nav-ff{display:none}}
   .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:6px 13px;border-radius:999px;margin-bottom:22px}
 
   footer{border-top:1px solid var(--line);background:#fff;padding:46px 0 40px;margin-top:40px}
@@ -164,6 +165,7 @@ const favicon =
         <a href="/incidents">Incidents</a>
       </div>
       <div class="nav-cta">
+        <a class="btn btn-ghost nav-ff" href={FIREFOX_URL} target="_blank" rel="noopener">Firefox</a>
         <a class="btn btn-teal" href={CHROME_URL} target="_blank" rel="noopener">Add to Chrome</a>
       </div>
     </nav>
@@ -177,7 +179,7 @@ const favicon =
     <div class="foot">
       <div class="about">
         <a class="brand" href="/"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
-        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+        <p>A wallet-drainer and phishing guard for Chrome and Firefox. Open source, local-first, built for people who sign transactions.</p>
       </div>
       <div class="cols">
         <div>

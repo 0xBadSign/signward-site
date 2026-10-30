@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Signward — see the scam before you sign</title>
-<meta name="description" content="Signward is a wallet-drainer and phishing guard for Chrome. It reads risky wallet requests in plain language and stops the trap before your wallet opens.">
+<meta name="description" content="Signward is a wallet-drainer and phishing guard for Chrome and Firefox. It reads risky wallet requests in plain language and stops the trap before your wallet opens.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +33,7 @@
   .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
   .btn-ghost{border-color:var(--line);color:var(--ink);background:#fff}.btn-ghost:hover{border-color:#cdd6d3}
   .nav-cta{display:flex;align-items:center;gap:14px}
+  @media(max-width:480px){.nav-ff{display:none}}
   .soon{font-size:12px;font-weight:700;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:3px 9px;border-radius:999px}
 
   .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
@@ -130,6 +131,7 @@
         <a href="/incidents">Incidents</a>
       </div>
       <div class="nav-cta">
+        <a class="btn btn-ghost nav-ff" href="https://addons.mozilla.org/firefox/addon/signward-drainer-guard/" target="_blank" rel="noopener">Firefox</a>
         <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
       </div>
     </nav>
@@ -141,13 +143,13 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="kicker">Wallet-drainer &amp; phishing guard for Chrome</span>
+        <span class="kicker">Wallet-drainer &amp; phishing guard for Chrome and Firefox</span>
         <h1>See the scam <span class="em">before</span> you sign.</h1>
         <p class="lead">Signward sits between the page and your wallet. It reads every risky request in plain language and blocks known scams before the page can run.</p>
         <div class="hero-cta">
           <a class="btn btn-teal btn-lg" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome, free</a>
-          <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
-        </div>
+          <a class="btn btn-ghost btn-lg" href="https://addons.mozilla.org/firefox/addon/signward-drainer-guard/" target="_blank" rel="noopener">Add to Firefox</a>
+                  </div>
         <div class="trust">Free<span class="d"></span>Open source<span class="d"></span>No account<span class="d"></span>Nothing leaves your device by default</div>
       </div>
       <div class="stage">
@@ -252,8 +254,9 @@
   <div class="wrap">
     <div class="ctaband" id="get">
       <h2>See the scam before you sign.</h2>
-      <p>Signward is live on the Chrome Web Store. Add it in one click, free, no account.</p>
-      <a class="btn btn-white" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+      <p>Signward is live on the Chrome Web Store and Firefox Add-ons. Add it in one click, free, no account.</p>
+      <a class="btn btn-white" style="margin:6px" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+      <a class="btn btn-white" style="margin:6px" href="https://addons.mozilla.org/firefox/addon/signward-drainer-guard/" target="_blank" rel="noopener">Add to Firefox</a>
     </div>
   </div>
 </section>
@@ -263,7 +266,7 @@
     <div class="foot">
       <div class="about">
         <a class="brand" href="#top"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
-        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+        <p>A wallet-drainer and phishing guard for Chrome and Firefox. Open source, local-first, built for people who sign transactions.</p>
       </div>
       <div class="cols">
         <div>

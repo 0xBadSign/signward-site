@@ -27,6 +27,7 @@
   .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:.15s;font-family:inherit}
   .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
   .nav-cta{display:flex;align-items:center;gap:14px}
+  @media(max-width:480px){.nav-ff{display:none}}
 
   .page{background:radial-gradient(900px 480px at 92% -18%,rgba(20,163,147,.16),transparent 60%),linear-gradient(180deg,#f3f8f6 0%,#ffffff 60%);border-bottom:1px solid var(--line);padding:64px 0 84px}
   .page .wrap{max-width:680px}
@@ -78,6 +79,7 @@
     <nav>
       <a class="brand" href="/"><svg viewBox="0 0 48 48"><use href="#shield"/></svg>Signward</a>
       <div class="nav-cta">
+        <a class="btn btn-ghost nav-ff" href="https://addons.mozilla.org/firefox/addon/signward-drainer-guard/" target="_blank" rel="noopener">Firefox</a>
         <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
       </div>
     </nav>
@@ -133,7 +135,7 @@
     <div class="foot">
       <div class="about">
         <a class="brand" href="/"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
-        <p>A wallet-drainer and phishing guard for Chrome. Open source, local-first, built for people who sign transactions.</p>
+        <p>A wallet-drainer and phishing guard for Chrome and Firefox. Open source, local-first, built for people who sign transactions.</p>
       </div>
       <div class="cols">
         <div>

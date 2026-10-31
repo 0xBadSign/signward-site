@@ -2,6 +2,7 @@
 title: "StepDrainer: real DeFi domains, cloned sites, one server"
 description: "Over one night, a dozen DeFi sites started serving a wallet drainer from their own domains. We looked at what they were actually serving. Here is what we found, why most site checks miss it, and what to do."
 pubDate: 2026-10-31
+updatedDate: 2026-10-31
 category: "incident"
 tags: ["dns hijack", "frontend attack", "wallet drainer", "incident", "stepdrainer"]
 heroPrompt: "Flat editorial illustration of a familiar storefront whose sign and window look perfect, but the door has been quietly rerouted by a cable to a single dark server box behind the building, teal and deep navy palette, calm and technical mood, no text, no logos"
@@ -22,6 +23,10 @@ sources:
     url: "https://blockaid.io/blog/squarespace-defi-domain-hijack-incident"
   - title: "Curve Finance: domain incident (May 2025)"
     url: "https://news.curve.finance/curve-domain-incident/"
+  - title: "RDAP registry lookup (example: stakepoint.app)"
+    url: "https://rdap.org/domain/stakepoint.app"
+  - title: "disable-devtool on npm"
+    url: "https://www.npmjs.com/package/disable-devtool"
   - title: "Revoke.cash"
     url: "https://revoke.cash"
 ---
@@ -48,6 +53,16 @@ We fetched each homepage the way a browser would, without running any of its cod
 **The same drainer everywhere.** The script was identical on every site we compared (SHA-256 `81bd310c551bb6871fa217d92ea60e8a0bc6990838fc38807dadbf26ad86212b`). It is one 1.9 MB line of heavily obfuscated JavaScript. Its variable names are made of Chinese characters, its strings are compressed, and it builds its real code at runtime from a string table. Ordinary production bundles are minified, but they do not look like this. We did not run it, so we cannot say which signatures it asks for. Blockaid's description, malicious scripts inserted into the sites, matches what we saw.
 
 **The other four were already back.** By the time we checked, StonkFun, Echelon, Origami and Longbow were served from their normal hosting again, as were Kintsu and Flap. StonkFun said it had rebuilt on new infrastructure and found no affected users. SupSwap moved back to its normal hosting while we were writing this. Pickle, Fluxbeam, Stakepoint, SHPRD and ApeX DeFi still pointed at `31.56.52.52` at 10:08 UTC on October 31.
+
+## Update, October 31 afternoon: one registrar, one hold
+
+**Every flagged domain shares one registrar.** Public registry (RDAP) records show that all ten domains in Blockaid's second alert are registered at Name.com, and Kintsu's domain is too. Independent researchers pointed this out first; we checked the records ourselves. A shared registrar is the common factor, but the records alone do not show how the nameservers were changed, and no root cause has been confirmed.
+
+**The registrar suspended them within seconds.** The domains were placed on `clientHold`, the status a registrar uses to take a domain offline. The two that were still on hold when we checked, supswap.xyz and stakepoint.app, both show their last change at 12:32:44 and 12:32:46 UTC. While on hold, the domains did not resolve at all, which took the fake copies offline for everyone.
+
+**Most are back under their owners' control.** By about 15:15 UTC, pickle.finance had been released and moved its DNS to Vercel, and fluxbeam.xyz, apexdefi.xyz and shprd.finance had been released and moved to NS1. SupSwap and Stakepoint were still on hold at that time. Wait for each project to confirm on its official channels before connecting a wallet again.
+
+**What the drainer did to hide.** We opened one of the clones in an isolated browser with a fake, empty wallet. The page loaded an anti-debugging library, `disable-devtool`, from the esm.sh CDN; when it detected an automated browser it blanked the page to `about:blank`. It also looked up the visitor's IP address through `api.ipify.org`, and its 1 MB second-stage payload was not on the site at all: it was fetched from Irys, a permanent storage network. Even with the anti-debugging blocked, the page asked our wallet for nothing from a datacenter connection, which is consistent with a drainer that only fires for visitors who look like real users. Legitimate DeFi sites do not ship anti-debugging libraries, so this combination is itself a useful warning sign, and Signward now flags it.
 
 ## Why most site checks pass a hijacked site
 

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signward for MetaMask</title>
+<meta name="description" content="Signward's checks inside MetaMask's own confirmation screen: plain-English explanations for every transaction and signature, and warnings for known drainer sites and addresses.">
+<link rel="canonical" href="https://signward.app/snap">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Signward for MetaMask">
+<meta property="og:description" content="Plain-English explanations and drainer warnings inside MetaMask's confirmation screen.">
+<meta property="og:url" content="https://signward.app/snap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z' fill='%230f766e'/%3E%3Cpath d='M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8' fill='none' stroke='%23fff' stroke-width='4.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#14232b;--muted:#5c6b72;--teal:#0f766e;--teal-d:#0b5f58;--paper:#f7f5f0;
+    --line:#e4e9e7;--high:#b3361b;--medium:#9a6200;--bg:#ffffff;--bg2:#f5f8f7;--maxw:1120px;
+  }
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .em{color:var(--teal)}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .brand svg{width:28px;height:28px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:.15s;font-family:inherit}
+  .btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:var(--teal-d)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  @media(max-width:480px){.nav-ff{display:none}}
+
+  .page{background:radial-gradient(900px 480px at 92% -18%,rgba(20,163,147,.16),transparent 60%),linear-gradient(180deg,#f3f8f6 0%,#ffffff 60%);border-bottom:1px solid var(--line);padding:64px 0 84px}
+  .page .wrap{max-width:680px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.01em;color:var(--teal);background:#e3f1ee;border:1px solid #cfe6e1;padding:6px 13px;border-radius:999px;margin-bottom:18px}
+  h1{font-size:40px;line-height:1.1;font-weight:800;letter-spacing:-.03em}
+  .lead{margin-top:14px;font-size:17px;color:var(--muted)}
+
+  .why{margin-top:30px}
+  .why h2{font-size:15px;font-weight:700;margin-bottom:12px}
+  .costs{list-style:none;display:grid;gap:10px}
+  .costs li{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:13px 15px;font-size:14.5px}
+  .costs .ico{flex:none;width:22px;height:22px;color:var(--teal)}
+  .costs b{font-weight:700}
+  .costs .sub{color:var(--muted)}
+  .promise{margin-top:16px;font-size:14.5px;color:var(--muted)}
+  .promise b{color:var(--ink);font-weight:700}
+
+  .give{margin-top:30px;background:#fff;border:1px solid var(--line);border-top:4px solid var(--teal);border-radius:14px;padding:24px;box-shadow:0 16px 40px rgba(20,35,43,.08)}
+  .give h2{font-size:16px;font-weight:800}
+  .give .chain{margin-top:4px;font-size:13.5px;color:var(--muted)}
+  .addr{margin-top:14px;display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .addr code{flex:1;min-width:220px;font:14px ui-monospace,Consolas,monospace;color:var(--ink);background:var(--bg2);border:1px solid #cdd6d3;border-radius:9px;padding:12px 13px;word-break:break-all;display:flex;align-items:center}
+  .copy{flex:none;display:inline-flex;align-items:center;gap:7px;font:inherit;font-weight:700;font-size:14px;padding:0 16px;border-radius:9px;border:1px solid var(--teal);background:var(--teal);color:#fff;cursor:pointer}
+  .copy:hover{background:var(--teal-d)}
+  .copy:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  .copy.done{background:#0b5f58}
+  .verify{margin-top:14px;font-size:13px;color:var(--muted);border-left:3px solid var(--medium);background:#fbf4e6;border-radius:0 8px 8px 0;padding:10px 13px}
+
+  .status{margin-top:14px;font-size:14px;padding:10px 13px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);display:none}
+  .status.show{display:block}
+  .status.ok{border-color:#cfe6e1;background:#e3f1ee;color:var(--teal-d)}
+  .status.err{border-color:#f0cfc7;background:#fbeae6;color:var(--high)}
+  .status a{text-decoration:underline}
+  .sec{margin-top:30px}
+  .sec h2{font-size:15px;font-weight:700;margin-bottom:12px}
+  .list{list-style:none;display:grid;gap:10px}
+  .list li{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:13px 15px;font-size:14.5px}
+  .list b{font-weight:700}
+  .note{margin-top:30px;font-size:14.5px;color:var(--muted)}
+  .note a{color:var(--teal);text-decoration:underline}
+
+  footer{border-top:1px solid var(--line);background:#fff;padding:46px 0 40px}
+  .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot .about{max-width:300px}
+  .foot .about p{font-size:13.5px;color:var(--muted);margin-top:12px}
+  .foot .cols{display:flex;gap:64px;flex-wrap:wrap}
+  .foot h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .foot a{display:block;font-size:14.5px;color:var(--ink);margin-bottom:10px}.foot a:hover{color:var(--teal)}
+  .legal{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:860px){h1{font-size:32px}.page{padding:44px 0 64px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <g id="shield"><path d="M24 2 L45 7 L45 28 C45 37.5 36.5 44.5 24 47 C11.5 44.5 3 37.5 3 28 L3 7 Z" fill="#0f766e"/><path d="M10 31 C13.5 23.5 17.5 35 22.5 27.5 C26.5 21.5 31.5 33 36.5 25.5 C38.3 22.7 40.5 23.5 42 24.8" fill="none" stroke="#fff" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><svg viewBox="0 0 48 48"><use href="#shield"/></svg>Signward</a>
+      <div class="nav-cta">
+        <a class="btn btn-ghost nav-ff" href="https://addons.mozilla.org/firefox/addon/signward-drainer-guard/" target="_blank" rel="noopener">Firefox</a>
+        <a class="btn btn-teal" href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="wrap">
+    <span class="kicker">MetaMask Snap</span>
+    <h1>Signward for <span class="em">MetaMask</span></h1>
+    <p class="lead">Signward's checks inside MetaMask's own confirmation screen: every transaction and signature request gets a plain-English explanation, and known drainer sites and addresses get a warning you must acknowledge before confirming.</p>
+
+    <section class="give">
+      <h2>Add Signward to MetaMask</h2>
+      <p class="chain">Snaps run in the MetaMask browser extension on desktop.</p>
+      <div class="addr">
+        <button class="copy" id="install" type="button" style="padding:12px 18px">Add to MetaMask</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <div class="sec">
+      <h2>What it can and cannot do</h2>
+      <ul class="list">
+        <li><b>Can:</b> explain every transaction and signature in plain English (approvals, Permit and Permit2, NFT approvals, EIP-7702 delegations, transfers).</li>
+        <li><b>Can:</b> warn when the site is on Signward's community block list or the spender or recipient is a known drainer address.</li>
+        <li><b>Can:</b> warn on unlimited approvals to unknown spenders.</li>
+        <li><b>Cannot:</b> block a transaction on its own. MetaMask lets you decide after the warning.</li>
+        <li><b>Cannot:</b> see wallet connections. The Signward browser extension covers that.</li>
+        <li><b>Cannot:</b> protect Solana in MetaMask, which is not supported.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2>Permissions it asks for</h2>
+      <ul class="list">
+        <li><b>Transaction insights.</b> Shows the explanation and warnings on transaction confirmations.</li>
+        <li><b>Signature insights.</b> Shows the explanation and warnings on signature requests.</li>
+        <li><b>Internet access.</b> Only to download Signward's public block list and drainer address list from api.signward.app. Nothing about you or your transactions is sent.</li>
+        <li><b>Storage.</b> To cache those lists.</li>
+      </ul>
+    </div>
+
+    <p class="note">Signward is not yet listed in the MetaMask Snaps Directory, so MetaMask shows a notice during installation that the Snap has not been verified by MetaMask. The source is open to inspection on <a href="https://www.npmjs.com/package/@signwardapp/snap" target="_blank" rel="noopener">npm</a>.</p>
+    <p class="note" style="margin-top:14px">For full protection (connect checks, site warnings, Solana), also add the browser extension for <a href="https://chromewebstore.google.com/detail/signward-drainer-phishing/ljncjhmjjljmoclcapgbnohminlfjgil" target="_blank" rel="noopener">Chrome</a> or <a href="https://addons.mozilla.org/firefox/addon/signward-drainer-guard/" target="_blank" rel="noopener">Firefox</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <a class="brand" href="/"><svg viewBox="0 0 48 48" width="26" height="26"><use href="#shield"/></svg>Signward</a>
+        <p>A wallet-drainer and phishing guard for Chrome and Firefox. Open source, local-first, built for people who sign transactions.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#how">How it works</a>
+          <a href="/#privacy">Privacy</a>
+          <a href="/snap">MetaMask Snap</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="/blog">Blog</a>
+          <a href="/incidents">Incidents</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="https://github.com/">Source code</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="mailto:hello@signward.app">hello@signward.app</a>
+          <a href="/feedback">Send feedback</a>
+          <a href="/donate">Donate</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Signward</span>
+      <span>Signward is a security aid, not a guarantee. Always review what you sign.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SNAP = "npm:@signwardapp/snap";
+  var btn = document.getElementById("install");
+  var box = document.getElementById("status");
+  var provider = null;
+  var found = [];
+
+  function show(msg, cls, html){
+    box.className = "status show" + (cls ? " " + cls : "");
+    if (html) { box.innerHTML = msg; } else { box.textContent = msg; }
+  }
+  function notFound(){
+    show('Install the MetaMask browser extension first: <a href="https://metamask.io/download/" target="_blank" rel="noopener">metamask.io/download</a>', "err", true);
+  }
+
+  window.addEventListener("eip6963:announceProvider", function(ev){
+    if (ev && ev.detail && ev.detail.info && ev.detail.provider) { found.push(ev.detail); }
+  });
+
+  function pick(){
+    for (var i = 0; i < found.length; i++) {
+      var r = found[i].info.rdns;
+      if (r === "io.metamask" || r === "io.metamask.flask") { return found[i].provider; }
+    }
+    return null;
+  }
+
+  function discover(cb){
+    window.dispatchEvent(new Event("eip6963:requestProvider"));
+    setTimeout(function(){
+      var p = pick();
+      if (!p && !found.length && window.ethereum && window.ethereum.isMetaMask === true) { p = window.ethereum; }
+      cb(p);
+    }, 500);
+  }
+
+  function checkInstalled(){
+    provider.request({ method: "wallet_getSnaps" }).then(function(snaps){
+      var s = snaps && snaps[SNAP];
+      if (s) {
+        show("Signward is installed in MetaMask (version " + s.version + ")", "ok");
+        btn.textContent = "Reinstall / update";
+      }
+    }).catch(function(){});
+  }
+
+  btn.addEventListener("click", function(){
+    if (!provider) { notFound(); return; }
+    show("Installing, confirm in the MetaMask window...", "");
+    btn.disabled = true;
+    var params = {}; params[SNAP] = {};
+    provider.request({ method: "wallet_requestSnaps", params: params }).then(function(res){
+      var s = res && res[SNAP];
+      show("Installed" + (s && s.version ? " (version " + s.version + ")" : ""), "ok");
+      btn.textContent = "Reinstall / update";
+    }).catch(function(e){
+      if (e && e.code === 4001) { show("Installation cancelled", "err"); }
+      else { show("Could not install: " + String((e && e.message) || "unknown error").slice(0, 160), "err"); }
+    }).then(function(){ btn.disabled = false; });
+  });
+
+  discover(function(p){
+    provider = p;
+    if (provider) { checkInstalled(); }
+  });
+})();
+</script>
+
+</body>
+</html>

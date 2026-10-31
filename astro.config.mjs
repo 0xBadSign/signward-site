@@ -11,7 +11,7 @@ export default defineConfig({
   build: { format: 'file' },
   integrations: [
     sitemap({
-      customPages: ['', 'privacy', 'incidents', 'feedback', 'donate'].map((p) => 'https://signward.app/' + p),
+      customPages: ['', 'privacy', 'incidents', 'feedback', 'donate', 'snap'].map((p) => 'https://signward.app/' + p),
     }),
   ],
 });

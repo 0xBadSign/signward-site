@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Help and troubleshooting | Signward"
+  description="Fixes for common Signward problems: the insight panel not showing in MetaMask, the feed not loading, a legitimate site blocked, a scam not caught, and what the warnings mean."
+  path="/help"
+>
+  <main class="page">
+    <div class="narrow">
+      <span class="kicker">Help</span>
+      <h1 class="page-title">Help and <span class="em">troubleshooting</span></h1>
+      <p class="lead">Short answers to common problems with the browser extension and the MetaMask Snap. If yours is not here, see the <a href="/faq" style="text-decoration:underline">FAQ</a> or write to <a href="mailto:hello@signward.app" style="text-decoration:underline">hello@signward.app</a>.</p>
+
+      <div class="prose">
+        <ul>
+          <li><a href="#no-panel">The Signward panel does not show in MetaMask</a></li>
+          <li><a href="#feed">The feed is not loading or looks outdated</a></li>
+          <li><a href="#false-block">A legitimate site is blocked</a></li>
+          <li><a href="#missed">A scam was not caught</a></li>
+          <li><a href="#risk-levels">What the extension's warnings mean</a></li>
+          <li><a href="#hyperliquid">The Hyperliquid signature warning</a></li>
+        </ul>
+
+        <h2 id="no-panel">The Signward panel does not show in MetaMask</h2>
+        <p>Work through these in order:</p>
+        <ol>
+          <li>Check that Signward is installed in MetaMask. If you are not sure, install it again from the <a href="/snap">Signward for MetaMask</a> page. The page shows the installed version when the Snap is present.</li>
+          <li>Snaps run in the MetaMask browser extension on desktop.</li>
+          <li>Check that you approved the permissions during installation, including transaction insights and signature insights. If you declined any, install the Snap again.</li>
+          <li>Update MetaMask to the latest version, then reload the site and try the request again.</li>
+          <li>The panel appears on the confirmation screen for a transaction or a signature request. It does not appear for wallet connections. The browser extension covers those.</li>
+        </ol>
+        <p>Signward is fail-open. If it hits an error, it shows nothing instead of breaking your confirmation. If the panel is still missing after these steps, email <a href="mailto:hello@signward.app">hello@signward.app</a> with your MetaMask version and the site you were on.</p>
+
+        <h2 id="feed">The feed is not loading or looks outdated</h2>
+        <p>The Snap downloads Signward's public list of known phishing sites and drainer addresses from <code>api.signward.app</code> and keeps a copy inside MetaMask. It checks for a newer list about every six hours. It never makes you wait for the download: it uses the copy it already has and refreshes in the background.</p>
+        <ul>
+          <li>Check your internet connection and any ad blocker, VPN or firewall that might block <code>api.signward.app</code>.</li>
+          <li>Wait a while and make another request. The refresh happens in the background and the new list is used from then on.</li>
+          <li>If the feed cannot be reached, Signward still explains each request. It just cannot warn about feed matches until the list loads. Treat a missing warning as "no information", not as "safe".</li>
+        </ul>
+
+        <h2 id="false-block">A legitimate site is blocked</h2>
+        <p>Signward can sometimes warn about a site that is fine. If you believe the site is legitimate, first check the address in your address bar carefully, since lookalike domains are common. Then tell us:</p>
+        <ul>
+          <li>Email <a href="mailto:security@signward.app">security@signward.app</a> with the full address of the site and, if you can, a screenshot of the warning.</li>
+          <li>Please do not connect a wallet or sign anything on the site while you wait.</li>
+        </ul>
+
+        <h2 id="missed">A scam was not caught</h2>
+        <p>If Signward showed no warning on a drainer, phishing site or scam address, we want to know, because the community feed improves from these reports.</p>
+        <ul>
+          <li>Email <a href="mailto:security@signward.app">security@signward.app</a> with the site address, the contract or wallet addresses involved, and what happened. Never include a seed phrase or private key.</li>
+          <li>In the browser extension you can also use the "Report this site" button. It sends only the page address you are reporting.</li>
+          <li>If you already signed something suspicious, review and revoke your token approvals right away. Our <a href="/blog/revoke-token-approvals">guide to revoking approvals</a> explains how.</li>
+        </ul>
+
+        <h2 id="risk-levels">What the extension's warnings mean</h2>
+        <p>The browser extension gives each page a score from 0 to 100, computed on your device, and sorts it into three levels:</p>
+        <ul>
+          <li><strong>Normal (score below 35).</strong> No clear warning signs. This is not a guarantee that the site is safe.</li>
+          <li><strong>Suspicious (35 to 69).</strong> Some warning signs. The extension shows a corner warning. Be careful and check the address before connecting a wallet.</li>
+          <li><strong>Dangerous (70 and above).</strong> The extension shows a full-page warning before the page runs. Do not connect a wallet or sign anything on it.</li>
+        </ul>
+        <p>In the extension's settings, the Relaxed sensitivity mode shows the full-page warning only at 85 and above and stays silent on merely suspicious pages. In the MetaMask Snap, a request that matches the community feed is marked critical.</p>
+
+        <h2 id="hyperliquid">The Hyperliquid signature warning</h2>
+        <p>Added in extension version 0.5.1. Hyperliquid balances move with signatures that never appear on-chain, so a malicious site can move funds without leaving a normal transaction to review. If a site that is not an official Hyperliquid app asks you to sign a withdrawal, a transfer or an agent approval, Signward holds the request and shows what it does: the action, the destination address, the amount and the token.</p>
+        <ul>
+          <li>An "agent" approval gets its own line, because it lets another key trade your account.</li>
+          <li>The official Hyperliquid apps are not affected.</li>
+          <li>Signward only shows this information. It never changes what your wallet signs.</li>
+        </ul>
+        <p>If you did not expect the request, or the destination address is not yours, reject it. The MetaMask Snap adds the same check from version 0.2.0.</p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

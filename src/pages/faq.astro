@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CHROME_URL, FIREFOX_URL } from '../lib/blog';
+---
+<BaseLayout
+  title="FAQ | Signward"
+  description="How to install and use Signward, what it does and does not do, and how to reach support. Covers the Chrome and Firefox extension and the MetaMask Snap."
+  path="/faq"
+>
+  <main class="page">
+    <div class="narrow">
+      <span class="kicker">FAQ</span>
+      <h1 class="page-title">Frequently asked <span class="em">questions</span></h1>
+      <p class="lead">How Signward works, how to install it, and what it can and cannot do. This page covers both the browser extension and the MetaMask Snap. For fixes to common problems, see the <a href="/help" style="text-decoration:underline">help page</a>.</p>
+
+      <div class="prose">
+        <ul>
+          <li><a href="#what">What is Signward?</a></li>
+          <li><a href="#install-extension">How do I install the extension?</a></li>
+          <li><a href="#install-snap">How do I install the MetaMask Snap?</a></li>
+          <li><a href="#use">How do I use it?</a></li>
+          <li><a href="#not">What does Signward not do?</a></li>
+          <li><a href="#privacy">What about my privacy?</a></li>
+          <li><a href="#support">How do I get support?</a></li>
+        </ul>
+
+        <h2 id="what">What is Signward?</h2>
+        <p>Signward is a wallet-security tool for people who sign crypto transactions. It comes in two parts:</p>
+        <ul>
+          <li><strong>The browser extension</strong> for Chrome and Firefox. It checks the sites you visit and explains wallet requests in plain language before they reach your wallet.</li>
+          <li><strong>The MetaMask Snap</strong> (<code>@signwardapp/snap</code>). It adds the same kind of explanation to MetaMask's own confirmation screen, for every transaction and signature request.</li>
+        </ul>
+        <p>Both are free, need no account, and can be used on their own or together.</p>
+
+        <h2 id="install-extension">How do I install the extension?</h2>
+        <ol>
+          <li>Open the <a href={CHROME_URL} target="_blank" rel="noopener">Chrome Web Store page</a> or the <a href={FIREFOX_URL} target="_blank" rel="noopener">Firefox Add-ons page</a>.</li>
+          <li>Click the add button and confirm the permission prompt.</li>
+          <li>Pin the Signward icon to your toolbar if you want quick access to its settings.</li>
+        </ol>
+
+        <h2 id="install-snap">How do I install the MetaMask Snap?</h2>
+        <p>Snaps run in the MetaMask browser extension on desktop. You need MetaMask installed first.</p>
+        <p>Signward is not listed in the MetaMask Snaps Directory yet. The listing is pending review. Until it is listed, you can install it from the <a href="/snap">Signward for MetaMask</a> page with the "Add to MetaMask" button. MetaMask will show a notice that the Snap has not been verified by MetaMask. Once the Snap is listed, you will be able to install it from the Snaps Directory instead.</p>
+        <p>During installation MetaMask shows the permissions the Snap asks for: transaction insights, signature insights, internet access (only to download Signward's public lists) and storage (to cache those lists). Review them, then confirm.</p>
+
+        <h2 id="use">How do I use it?</h2>
+        <p>There is nothing to set up. Once installed, Signward works in the background.</p>
+        <ul>
+          <li><strong>Plain-language explanations.</strong> Before you confirm a transaction or signature, Signward explains what it does: token approvals, unlimited spends, NFT approvals, Permit and Permit2 signatures, NFT marketplace orders, EIP-7702 delegations and plain transfers. In the Snap, the explanation appears in MetaMask's confirmation screen. In the extension, it appears before the request reaches your wallet.</li>
+          <li><strong>Critical warnings.</strong> If something looks dangerous, such as an unlimited approval to an unknown spender, Signward marks it as critical and says why in everyday language.</li>
+          <li><strong>Feed matches.</strong> Signward compares the site and the addresses involved (spender, operator, recipient, called contract, delegate) with a community feed of known phishing sites and drainer addresses. If something matches, the warning says so.</li>
+        </ul>
+        <p>Read the explanation first, then decide. Signward gives you information; you stay in control of what you sign. For the extension's risk levels and other warnings, see <a href="/help#risk-levels">the help page</a>.</p>
+
+        <h2 id="not">What does Signward not do?</h2>
+        <ul>
+          <li>It does not hold your keys or recovery phrase, and it cannot sign for you.</li>
+          <li>It does not ask you to create an account.</li>
+          <li>In the MetaMask Snap, it never changes or blocks what you sign. It only adds information to the confirmation screen, and MetaMask lets you decide.</li>
+          <li>It is fail-open. If the feed cannot be reached or something goes wrong, Signward shows no warning rather than breaking your confirmation. A missing warning is therefore not proof that a request is safe.</li>
+          <li>It is not a guarantee. A new scam that is not in the feed, or one that looks harmless, can be missed. Always review what you sign.</li>
+        </ul>
+
+        <h2 id="privacy">What about my privacy?</h2>
+        <p>Signward has no accounts, no tracking and no ads. Your keys are never read, stored or sent anywhere. Most checks run on your device. The MetaMask Snap only downloads Signward's public lists of known bad sites and addresses, and sends nothing about you, your transactions or the site you are on. A few optional extension checks send a minimal item to Signward's server, and the privacy policy lists each one. Read the full <a href="/privacy">Privacy Policy</a>.</p>
+
+        <h2 id="support">How do I get support?</h2>
+        <ul>
+          <li><strong>General help and questions:</strong> <a href="mailto:hello@signward.app">hello@signward.app</a></li>
+          <li><strong>Urgent security issues:</strong> <a href="mailto:security@signward.app">security@signward.app</a>. Use this for a drainer or phishing site that Signward missed, or for a false block that is stopping you from reaching a legitimate site.</li>
+        </ul>
+        <p>You can also use the <a href="/feedback">feedback form</a>. Before you write, the <a href="/help">help page</a> may already have your answer.</p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

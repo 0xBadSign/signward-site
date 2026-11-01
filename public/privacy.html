@@ -49,7 +49,7 @@
 
 <div class="wrap doc">
   <h1>Privacy Policy</h1>
-  <div class="updated">Last updated: 24 October 2026</div>
+  <div class="updated">Last updated: 1 November 2026</div>
 
   <p class="lead">Signward is a security tool, so it is built to see as little as possible. Almost everything happens on your device. This page explains exactly what stays local, the few checks that reach a server, and what is never collected.</p>
 
@@ -69,6 +69,8 @@
     <li><strong>Page checks.</strong> Signward scores each page locally against bundled lists and on-page signals to decide whether to warn or block.</li>
     <li><strong>The wallet gate.</strong> It reads and explains wallet requests (approvals, permits, orders, signatures) before you decide. It never holds a key and cannot sign for you.</li>
     <li><strong>Your approval ledger.</strong> Approvals you grant while Signward is installed are stored only in your browser's local storage, to power the revoke links and compromised-approval alerts. They are never uploaded.</li>
+    <li><strong>Address poisoning warning.</strong> Signward keeps a private list of up to 500 addresses you recently sent funds to, only in your browser's local storage, to warn you when a new recipient merely looks like one of them. It is never sent anywhere, and you can turn the warning off in settings.</li>
+    <li><strong>First-interaction note.</strong> Signward compares a contract with your local approval history on your device. Nothing is sent.</li>
     <li><strong>Settings and caches.</strong> Your preferences, the downloaded lists, and per-tab scores are kept locally.</li>
   </ul>
 
@@ -77,6 +79,7 @@
   <table>
     <tr><th>Check</th><th>What is sent</th><th>When</th></tr>
     <tr><td>Address screening</td><td>A wallet/contract <strong>address</strong> and chain id</td><td>Online screening is on (default); can be turned off in settings</td></tr>
+    <tr><td>Contract age</td><td>A <strong>contract address</strong> and chain id, nothing else</td><td>When you are asked to approve a token or call a contract with value, and online screening is on; the answer is cached on your device for up to 24 hours</td></tr>
     <tr><td>Domain age</td><td>A registrable <strong>domain</strong> (e.g. example.com) — never the full URL</td><td>Only for a page that already looks suspicious</td></tr>
     <tr><td>Brand check</td><td>A short <strong>brand name</strong> taken from the page (e.g. &ldquo;uniswap&rdquo;) — never the URL</td><td>Only for a page that already looks suspicious</td></tr>
     <tr><td>AI deep scan</td><td>A <strong>page snapshot</strong>: the URL, title, a text sample, script and link hosts, and wallet-button labels</td><td>Only when you click &ldquo;Deep analysis&rdquo;</td></tr>
@@ -102,7 +105,7 @@
   </ul>
 
   <h2>5. Retention and rate-limiting</h2>
-  <p>Address, domain and brand answers are cached briefly on the server to reduce load, keyed by the item itself, not by you. Deep-scan snapshots are not stored. When you report a site, the reported URL enters a moderation queue; to prevent abuse, the server counts reports per client using a <strong>salted, truncated hash</strong> of the IP address — the raw IP address is never stored.</p>
+  <p>Address, contract-age, domain and brand answers are cached briefly on the server to reduce load, keyed by the item itself, not by you. The contract-age check is answered from public blockchain data; to enforce a daily request limit the server keeps only a salted hash of your IP address, never the address you asked about against you. Deep-scan snapshots are not stored. When you report a site, the reported URL enters a moderation queue; to prevent abuse, the server counts reports per client using a <strong>salted, truncated hash</strong> of the IP address — the raw IP address is never stored.</p>
 
   <h2>6. No sale of data</h2>
   <p>Signward does not sell, rent or share personal data. There is no advertising and no third-party analytics.</p>
